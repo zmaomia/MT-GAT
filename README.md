@@ -1,2 +1,2 @@
-# Multitask-GATv2-Soil
-The source code of multi-task GATv2 for soil organic layer prediciton task.
+# Multitask-SOL
+The source code of multi-task graph attention network (MLT-GAT) for soil organic layer prediciton task.
