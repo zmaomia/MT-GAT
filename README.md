@@ -1,2 +1,3 @@
-# Multitask-SOL
-The source code of multi-task learning graph attention network (MT-GAT) for prediciting the soil organic layer thickness and orginic matter content in boreal forests.
+# MT-GAT
+The source code of Multi-Task Learning Graph Attention Network (MT-GAT) for predicting soil organic layer thickness and organic matter content in boreal forests.
+The code is developed using PyTorch Geometric (PyG).
