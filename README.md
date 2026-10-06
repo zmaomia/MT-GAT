@@ -28,6 +28,7 @@ To train the MT-GAT model, run:
 
 ```bash
 python train_MT_GAT.py
+```
 
 
 ## Citation
