@@ -73,6 +73,30 @@ header {
   white-space:nowrap;
 }
 
+.crumbs {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  min-width:0;
+}
+
+.home-link {
+  color:var(--muted);
+  text-decoration:none;
+  font-weight:600;
+  font-size:1rem;
+  white-space:nowrap;
+}
+
+.home-link:hover {
+  color:var(--forest);
+}
+
+.crumb-sep {
+  color:#b4c4bc;
+}
+
 .menu {
   display:flex;
   gap:19px;
@@ -316,8 +340,7 @@ footer {
     display:block;
     padding:12px 0;
   }
-  .brand {
-    display:block;
+  .crumbs {
     margin-bottom:10px;
   }
   .menu {
@@ -391,9 +414,11 @@ footer {
  <body>
   <header>
    <div class="wrap nav">
-    <a class="brand" href="#home">
-     MT-GAT-Soil
-    </a>
+    <div class="crumbs">
+     <a class="home-link" href="https://zmaomia.github.io/" title="Back to main page">← Zhu Mao</a>
+     <span class="crumb-sep" aria-hidden="true">/</span>
+     <a class="brand" href="#home">MT-GAT-Soil</a>
+    </div>
     <nav aria-label="Site navigation" class="menu">
      <a href="#overview">
       Overview
@@ -656,6 +681,7 @@ footer {
   <footer>
    <div class="wrap">
     MT-GAT-Soil &middot; Boreal forest soil mapping |
+    <a href="https://zmaomia.github.io/">Main page</a> |
     <a href="https://github.com/zmaomia/MT-GAT" rel="noopener noreferrer" target="_blank">
      Source repository
     </a>
