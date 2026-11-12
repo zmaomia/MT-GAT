@@ -1,26 +1,659 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="MT-GAT-Soil: Multi-task graph attention networks for mapping boreal forest soil organic layer thickness and soil organic matter.">
-<title>MT-GAT-Soil | Forest Soil Mapping</title>
-<style>
-:root{--ink:#1b302c;--muted:#5e706b;--forest:#216856;--dark:#17483d;--line:#dce8e1;--bg:#f5f9f6;--white:#fff}
-*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:100px}body{margin:0;background:var(--white);color:var(--ink);font:16px/1.7 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}a{color:var(--forest)}.wrap{width:min(100% - 48px,1080px);margin:auto}header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.98);border-bottom:1px solid var(--line)}.nav{display:flex;align-items:center;justify-content:space-between;gap:22px;min-height:69px}.brand{font-size:1.05rem;font-weight:800;letter-spacing:-.02em;color:var(--ink);text-decoration:none;white-space:nowrap}.menu{display:flex;gap:19px;align-items:center;flex-wrap:wrap}.menu a{font-size:.88rem;text-decoration:none;color:var(--muted)}.menu a:hover{color:var(--forest)}.hero{padding:82px 0 72px;background:linear-gradient(132deg,#edf6ef,#fbfcfa 65%,#e9f2ed)}.eyebrow{color:var(--forest);font-size:.8rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.hero h1{max-width:960px;line-height:1.16;letter-spacing:-.035em;font-size:clamp(2rem,4.3vw,3.35rem);margin:13px 0 15px}.lead{max-width:850px;font-size:1.1rem;color:var(--muted)}.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}.btn{display:inline-block;padding:9px 17px;background:var(--forest);border-radius:8px;color:white;font-weight:650;text-decoration:none}.btn.secondary{background:white;color:var(--forest);border:1px solid #adcabb}section{padding:65px 0;scroll-margin-top:100px}section.alt{background:var(--bg)}h2{font-size:1.75rem;line-height:1.25;letter-spacing:-.025em;margin:0 0 20px}h3{font-size:1.05rem;line-height:1.4;margin:0 0 10px}p{margin:0 0 17px}.intro{max-width:900px;color:var(--muted)}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:25px}.card{padding:24px;border:1px solid var(--line);border-radius:12px;background:white}.card p{color:var(--muted);margin:0}.metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;max-width:780px;margin-top:22px}.metric{border:1px solid var(--line);border-radius:12px;padding:19px 20px;background:white}.metric h3{color:var(--forest)}.metric strong{font-size:1.5rem;line-height:1.2}.metric small{display:block;color:var(--muted);font-size:.85rem}.metric-values{display:flex;gap:27px;flex-wrap:wrap}.figure{margin:25px 0 0;background:white;border:1px solid var(--line);border-radius:12px;overflow:hidden}.figure img{width:100%;height:auto;display:block;object-fit:contain}.figure figcaption{font-size:.9rem;color:var(--muted);padding:14px 18px}.figure-links{padding:0 18px 16px;font-size:.88rem}.figure-links a{font-weight:650}.fallback{display:none;padding:38px 20px;background:#f1f6f2;text-align:center;color:var(--muted)}.paper{border-left:4px solid var(--forest);background:var(--bg);padding:25px;border-radius:0 10px 10px 0}.paper p{color:var(--muted)}.paper-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}.paper-links a{border:1px solid #b7cec1;border-radius:7px;padding:7px 14px;text-decoration:none;font-weight:600;background:white}.paper-links a:hover{background:#e8f4ed}.future-list{max-width:850px;padding-left:22px}.future-list li{padding-bottom:10px}footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-size:.9rem}
-@media(max-width:800px){.nav{display:block;padding:12px 0}.brand{display:block;margin-bottom:10px}.menu{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.menu a{display:block;text-align:center;font-size:.79rem;padding:8px 2px;background:#f3f8f5;border-radius:7px}.hero{padding:45px 0}.hero h1{font-size:clamp(1.85rem,6vw,2.65rem)}section{padding:43px 0}.cards{grid-template-columns:1fr}.card{padding:18px}.wrap{width:min(100% - 32px,1080px)}.metrics{grid-template-columns:1fr}.metric{padding:18px}.figure figcaption{padding:12px;font-size:.82rem}.paper{padding:18px}.lead{font-size:1rem}}
-@media(max-width:380px){.menu a{font-size:.74rem}.wrap{width:min(100% - 26px,1080px)}.metric-values{gap:16px}}
-</style>
-</head>
-<body>
-<header><div class="wrap nav"><a class="brand" href="#home">MT-GAT-Soil</a><nav class="menu" aria-label="Site navigation"><a href="#overview">Overview</a><a href="#highlights">Highlights</a><a href="#method">Method</a><a href="#results">Results</a><a href="#future">Future Work</a><a href="#paper">Paper</a></nav></div></header>
-<main>
-<div class="hero" id="home"><div class="wrap"><div class="eyebrow">Forest soil mapping · Remote sensing · Graph learning</div><h1>Multi-task Graph Attention Network for Mapping Forest Soil Organic Layer Thickness and Soil Organic Matter from Multi-source Remote Sensing Data</h1><p class="lead">Joint digital mapping of soil organic layer thickness (SOLT) and soil organic matter (SOM) in boreal forests.</p><div class="actions"><a class="btn" href="#results">Explore Results</a><a class="btn secondary" href="https://doi.org/10.2139/ssrn.7287455" target="_blank" rel="noopener noreferrer">Read Preprint</a></div></div></div>
-<section id="overview"><div class="wrap"><h2>Overview</h2><p>This study introduces <strong>MT-GAT</strong>, a multi-task graph attention network that jointly predicts soil organic layer thickness (SOLT) and soil organic matter (SOM) in boreal forests. To model the spatial relationships of soil properties, we integrate 19 environmental covariates derived from airborne LiDAR, airborne multispectral orthoimagery, Sentinel-1 SAR, and Sentinel-2 multispectral imagery.</p><p>Forest polygons delineated using tree-species maps are represented as graph nodes. A shared graph attention encoder learns from environmental covariates and multi-scale spatial context, while task-specific decoders jointly estimate SOLT and SOM. The framework is evaluated using soil samples from <strong>38 boreal forest sites</strong>, supporting spatially informed digital soil mapping and forest management applications.</p></div></section>
-<section id="highlights" class="alt"><div class="wrap"><h2>Research Highlights</h2><div class="cards"><article class="card"><h3>Multi-source remote sensing</h3><p>Environmental covariates from airborne LiDAR, multispectral aerial imagery, Sentinel-1 SAR, and Sentinel-2 MSI support forest soil mapping.</p></article><article class="card"><h3>Spatial graph attention</h3><p>Tree-species-based polygons are organized as graph nodes, allowing a shared GAT encoder to learn spatial autocorrelation and multi-scale context.</p></article><article class="card"><h3>Joint SOLT and SOM prediction</h3><p>Multi-task decoders exploit relationships between the two soil properties while separating task-specific signals to reduce negative transfer.</p></article></div></div></section>
-<section id="method"><div class="wrap"><h2>Methodology</h2><p class="intro">Multi-source remote sensing data are processed into environmental covariates and linked to forest polygons. MT-GAT then combines a shared graph attention encoder with task-specific prediction heads for SOLT and SOM.</p><figure class="figure"><img src="assets/figures/Overallworkflow.png" alt="MT-GAT framework: multi-source environmental covariates, graph construction, shared attention encoder, and task-specific SOLT and SOM decoders" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><div class="fallback">Upload your methodology figure as <code>assets/figures/Overallworkflow.png</code>.</div><figcaption>Figure 1. Overview of the MT-GAT framework for joint prediction of forest soil organic layer thickness and soil organic matter.</figcaption></figure></div></section>
-<section id="results" class="alt"><div class="wrap"><h2>Results</h2><p class="intro">Evaluation using samples from 38 boreal forest sites and 19 environmental covariates demonstrates strong predictive performance for both soil organic properties.</p><div class="metrics"><div class="metric"><h3>Soil Organic Layer Thickness (SOLT)</h3><div class="metric-values"><div><strong>87.92%</strong><small>R²</small></div><div><strong>93.99%</strong><small>Concordance (ρ<sub>c</sub>)</small></div></div></div><div class="metric"><h3>Soil Organic Matter (SOM)</h3><div class="metric-values"><div><strong>92.51%</strong><small>R²</small></div><div><strong>96.23%</strong><small>Concordance (ρ<sub>c</sub>)</small></div></div></div></div><figure class="figure"><img src="assets/figures/result.png" alt="MT-GAT soil organic layer thickness and soil organic matter prediction results" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><div class="fallback">Upload your results figure as <code>assets/figures/result.png</code>.</div><figcaption>Figure 2. Results of MT-GAT predictions for soil organic layer thickness (SOLT) and soil organic matter (SOM). Replace this caption with the final figure description if needed.</figcaption></figure><p style="margin-top:18px">Compared with single-task models, the multi-task framework leverages relationships between soil organic properties to improve predictive performance.</p></div></section>
-<section id="future"><div class="wrap"><h2>Future Work</h2><p>Potential next steps include extending MT-GAT to additional soil properties and evaluating its transferability across forests and environmental conditions.</p><ul class="future-list"><li><strong>Additional soil targets:</strong> Extend joint prediction to other ecologically relevant soil properties.</li><li><strong>Model generalization:</strong> Assess robustness across additional forest sites, sampling densities, and geographic regions.</li><li><strong>Model interpretability:</strong> Investigate the contributions of environmental covariates and spatial interactions to soil predictions.</li></ul></div></section>
-<section class="alt" id="paper"><div class="wrap"><h2>Publication</h2><div class="paper"><h3>Multi-task Graph Attention Network for Mapping Forest Soil Organic Layer Thickness and Soil Organic Matter from Multi-source Remote Sensing Data</h3><p>Zhu Mao, Omid Abdi, Ville Laamanen, Veli-Pekka Kivinen, and Jori Uusitalo</p><p>Preprint available on SSRN (2026). DOI: 10.2139/ssrn.7287455</p><div class="paper-links"><a href="https://doi.org/10.2139/ssrn.7287455" target="_blank" rel="noopener noreferrer">Preprint / DOI</a><a href="https://scholar.google.com/citations?view_op=view_citation&amp;hl=zh-TW&amp;user=PF8I1pAAAAAJ&amp;sortby=pubdate&amp;citation_for_view=PF8I1pAAAAAJ:4DMP91E08xMC" target="_blank" rel="noopener noreferrer">Google Scholar</a><a href="https://github.com/zmaomia/MT-GAT" target="_blank" rel="noopener noreferrer">GitHub Repository</a></div></div></div></section>
-</main><footer><div class="wrap">MT-GAT-Soil · Boreal forest soil mapping | <a href="https://github.com/zmaomia/MT-GAT" target="_blank" rel="noopener noreferrer">Source repository</a></div></footer>
-</body></html>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <meta content="MT-GAT-Soil: Multi-task graph attention networks for mapping boreal forest soil organic layer thickness and soil organic matter." name="description"/>
+  <title>
+   MT-GAT-Soil | Forest Soil Mapping
+  </title>
+  <style>
+   :root {
+  --ink:#1b302c;
+  --muted:#5e706b;
+  --forest:#216856;
+  --dark:#17483d;
+  --line:#dce8e1;
+  --bg:#f5f9f6;
+  --white:#fff;
+}
+
+* {
+  box-sizing:border-box;
+}
+
+html {
+  scroll-behavior:smooth;
+  scroll-padding-top:100px;
+}
+
+body {
+  margin:0;
+  background:var(--white);
+  color:var(--ink);
+  font:16px/1.7 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+a {
+  color:var(--forest);
+}
+
+.wrap {
+  width:min(100% - 48px,1080px);
+  margin:auto;
+}
+
+header {
+  position:sticky;
+  top:0;
+  z-index:10;
+  background:rgba(255,255,255,.98);
+  border-bottom:1px solid var(--line);
+}
+
+.nav {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:22px;
+  min-height:69px;
+}
+
+.brand {
+  font-size:1.05rem;
+  font-weight:800;
+  letter-spacing:-.02em;
+  color:var(--ink);
+  text-decoration:none;
+  white-space:nowrap;
+}
+
+.menu {
+  display:flex;
+  gap:19px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.menu a {
+  font-size:.88rem;
+  text-decoration:none;
+  color:var(--muted);
+}
+
+.menu a:hover {
+  color:var(--forest);
+}
+
+.hero {
+  padding:82px 0 72px;
+  background:linear-gradient(132deg,#edf6ef,#fbfcfa 65%,#e9f2ed);
+}
+
+.eyebrow {
+  color:var(--forest);
+  font-size:.8rem;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.hero h1 {
+  max-width:960px;
+  line-height:1.16;
+  letter-spacing:-.035em;
+  font-size:clamp(2rem,4.3vw,3.35rem);
+  margin:13px 0 15px;
+}
+
+.lead {
+  max-width:850px;
+  font-size:1.1rem;
+  color:var(--muted);
+}
+
+.actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:24px;
+}
+
+.btn {
+  display:inline-block;
+  padding:9px 17px;
+  background:var(--forest);
+  border-radius:8px;
+  color:white;
+  font-weight:650;
+  text-decoration:none;
+}
+
+.btn.secondary {
+  background:white;
+  color:var(--forest);
+  border:1px solid #adcabb;
+}
+
+section {
+  padding:65px 0;
+  scroll-margin-top:100px;
+}
+
+section.alt {
+  background:var(--bg);
+}
+
+h2 {
+  font-size:1.75rem;
+  line-height:1.25;
+  letter-spacing:-.025em;
+  margin:0 0 20px;
+}
+
+h3 {
+  font-size:1.05rem;
+  line-height:1.4;
+  margin:0 0 10px;
+}
+
+p {
+  margin:0 0 17px;
+}
+
+.intro {
+  max-width:900px;
+  color:var(--muted);
+}
+
+.cards {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+  margin-top:25px;
+}
+
+.card {
+  padding:24px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:white;
+}
+
+.card p {
+  color:var(--muted);
+  margin:0;
+}
+
+.metrics {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+  max-width:780px;
+  margin-top:22px;
+}
+
+.metric {
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:19px 20px;
+  background:white;
+}
+
+.metric h3 {
+  color:var(--forest);
+}
+
+.metric strong {
+  font-size:1.5rem;
+  line-height:1.2;
+}
+
+.metric small {
+  display:block;
+  color:var(--muted);
+  font-size:.85rem;
+}
+
+.metric-values {
+  display:flex;
+  gap:27px;
+  flex-wrap:wrap;
+}
+
+.figure {
+  margin:25px 0 0;
+  background:white;
+  border:1px solid var(--line);
+  border-radius:12px;
+  overflow:hidden;
+}
+
+.figure img {
+  width:100%;
+  height:auto;
+  display:block;
+  object-fit:contain;
+}
+
+.figure figcaption {
+  font-size:.9rem;
+  color:var(--muted);
+  padding:14px 18px;
+}
+
+.figure-links {
+  padding:0 18px 16px;
+  font-size:.88rem;
+}
+
+.figure-links a {
+  font-weight:650;
+}
+
+.fallback {
+  display:none;
+  padding:38px 20px;
+  background:#f1f6f2;
+  text-align:center;
+  color:var(--muted);
+}
+
+.paper {
+  border-left:4px solid var(--forest);
+  background:var(--bg);
+  padding:25px;
+  border-radius:0 10px 10px 0;
+}
+
+.paper p {
+  color:var(--muted);
+}
+
+.paper-links {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:12px;
+}
+
+.paper-links a {
+  border:1px solid #b7cec1;
+  border-radius:7px;
+  padding:7px 14px;
+  text-decoration:none;
+  font-weight:600;
+  background:white;
+}
+
+.paper-links a:hover {
+  background:#e8f4ed;
+}
+
+.future-list {
+  max-width:850px;
+  padding-left:22px;
+}
+
+.future-list li {
+  padding-bottom:10px;
+}
+
+footer {
+  border-top:1px solid var(--line);
+  padding:26px 0;
+  color:var(--muted);
+  font-size:.9rem;
+}
+
+@media(max-width:800px) {
+  .nav {
+    display:block;
+    padding:12px 0;
+  }
+  .brand {
+    display:block;
+    margin-bottom:10px;
+  }
+  .menu {
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:6px;
+  }
+  .menu a {
+    display:block;
+    text-align:center;
+    font-size:.79rem;
+    padding:8px 2px;
+    background:#f3f8f5;
+    border-radius:7px;
+  }
+  .hero {
+    padding:45px 0;
+  }
+  .hero h1 {
+    font-size:clamp(1.85rem,6vw,2.65rem);
+  }
+  section {
+    padding:43px 0;
+  }
+  .cards {
+    grid-template-columns:1fr;
+  }
+  .card {
+    padding:18px;
+  }
+  .wrap {
+    width:min(100% - 32px,1080px);
+  }
+  .metrics {
+    grid-template-columns:1fr;
+  }
+  .metric {
+    padding:18px;
+  }
+  .figure figcaption {
+    padding:12px;
+    font-size:.82rem;
+  }
+  .paper {
+    padding:18px;
+  }
+  .lead {
+    font-size:1rem;
+  }
+}
+
+@media(max-width:380px) {
+  .menu a {
+    font-size:.74rem;
+  }
+  .wrap {
+    width:min(100% - 26px,1080px);
+  }
+  .metric-values {
+    gap:16px;
+  }
+}
+  </style>
+ </head>
+ <body>
+  <header>
+   <div class="wrap nav">
+    <a class="brand" href="#home">
+     MT-GAT-Soil
+    </a>
+    <nav aria-label="Site navigation" class="menu">
+     <a href="#overview">
+      Overview
+     </a>
+     <a href="#highlights">
+      Highlights
+     </a>
+     <a href="#method">
+      Method
+     </a>
+     <a href="#results">
+      Results
+     </a>
+     <a href="#future">
+      Future Work
+     </a>
+     <a href="#paper">
+      Paper
+     </a>
+    </nav>
+   </div>
+  </header>
+  <main>
+   <div class="hero" id="home">
+    <div class="wrap">
+     <div class="eyebrow">
+      Forest soil mapping &middot; Remote sensing &middot; Graph learning
+     </div>
+     <h1>
+      Multi-task Graph Attention Network for Mapping Forest Soil Organic Layer Thickness and Soil Organic Matter from Multi-source Remote Sensing Data
+     </h1>
+     <p class="lead">
+      Joint digital mapping of soil organic layer thickness (SOLT) and soil organic matter (SOM) in boreal forests.
+     </p>
+     <div class="actions">
+      <a class="btn" href="#results">
+       Explore Results
+      </a>
+      <a class="btn secondary" href="https://doi.org/10.2139/ssrn.7287455" rel="noopener noreferrer" target="_blank">
+       Read Preprint
+      </a>
+     </div>
+    </div>
+   </div>
+   <section id="overview">
+    <div class="wrap">
+     <h2>
+      Overview
+     </h2>
+     <p>
+      This study introduces
+      <strong>
+       MT-GAT
+      </strong>
+      , a multi-task graph attention network that jointly predicts soil organic layer thickness (SOLT) and soil organic matter (SOM) in boreal forests. To model the spatial relationships of soil properties, we integrate 19 environmental covariates derived from airborne LiDAR, airborne multispectral orthoimagery, Sentinel-1 SAR, and Sentinel-2 multispectral imagery.
+     </p>
+     <p>
+      Forest polygons delineated using tree-species maps are represented as graph nodes. A shared graph attention encoder learns from environmental covariates and multi-scale spatial context, while task-specific decoders jointly estimate SOLT and SOM. The framework is evaluated using soil samples from
+      <strong>
+       38 boreal forest sites
+      </strong>
+      , supporting spatially informed digital soil mapping and forest management applications.
+     </p>
+    </div>
+   </section>
+   <section class="alt" id="highlights">
+    <div class="wrap">
+     <h2>
+      Research Highlights
+     </h2>
+     <div class="cards">
+      <article class="card">
+       <h3>
+        Multi-source remote sensing
+       </h3>
+       <p>
+        Environmental covariates from airborne LiDAR, multispectral aerial imagery, Sentinel-1 SAR, and Sentinel-2 MSI support forest soil mapping.
+       </p>
+      </article>
+      <article class="card">
+       <h3>
+        Spatial graph attention
+       </h3>
+       <p>
+        Tree-species-based polygons are organized as graph nodes, allowing a shared GAT encoder to learn spatial autocorrelation and multi-scale context.
+       </p>
+      </article>
+      <article class="card">
+       <h3>
+        Joint SOLT and SOM prediction
+       </h3>
+       <p>
+        Multi-task decoders exploit relationships between the two soil properties while separating task-specific signals to reduce negative transfer.
+       </p>
+      </article>
+     </div>
+    </div>
+   </section>
+   <section id="method">
+    <div class="wrap">
+     <h2>
+      Methodology
+     </h2>
+     <p class="intro">
+      Multi-source remote sensing data are processed into environmental covariates and linked to forest polygons. MT-GAT then combines a shared graph attention encoder with task-specific prediction heads for SOLT and SOM.
+     </p>
+     <figure class="figure">
+      <img alt="MT-GAT framework: multi-source environmental covariates, graph construction, shared attention encoder, and task-specific SOLT and SOM decoders" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" src="assets/figures/Overallworkflow.png"/>
+      <div class="fallback">
+       Upload your methodology figure as
+       <code>
+        assets/figures/Overallworkflow.png
+       </code>
+       .
+      </div>
+      <figcaption>
+       Figure 1. Overview of the MT-GAT framework for joint prediction of forest soil organic layer thickness and soil organic matter.
+      </figcaption>
+     </figure>
+    </div>
+   </section>
+   <section class="alt" id="results">
+    <div class="wrap">
+     <h2>
+      Results
+     </h2>
+     <p class="intro">
+      Evaluation using samples from 38 boreal forest sites and 19 environmental covariates demonstrates strong predictive performance for both soil organic properties.
+     </p>
+     <div class="metrics">
+      <div class="metric">
+       <h3>
+        Soil Organic Layer Thickness (SOLT)
+       </h3>
+       <div class="metric-values">
+        <div>
+         <strong>
+          87.92%
+         </strong>
+         <small>
+          R&sup2;
+         </small>
+        </div>
+        <div>
+         <strong>
+          93.99%
+         </strong>
+         <small>
+          Concordance (&rho;
+          <sub>
+           c
+          </sub>
+          )
+         </small>
+        </div>
+       </div>
+      </div>
+      <div class="metric">
+       <h3>
+        Soil Organic Matter (SOM)
+       </h3>
+       <div class="metric-values">
+        <div>
+         <strong>
+          92.51%
+         </strong>
+         <small>
+          R&sup2;
+         </small>
+        </div>
+        <div>
+         <strong>
+          96.23%
+         </strong>
+         <small>
+          Concordance (&rho;
+          <sub>
+           c
+          </sub>
+          )
+         </small>
+        </div>
+       </div>
+      </div>
+     </div>
+     <figure class="figure">
+      <img alt="MT-GAT soil organic layer thickness and soil organic matter prediction results" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" src="assets/figures/result.png"/>
+      <div class="fallback">
+       Upload your results figure as
+       <code>
+        assets/figures/result.png
+       </code>
+       .
+      </div>
+      <figcaption>
+       Figure 2. Results of MT-GAT predictions for soil organic layer thickness (SOLT) and soil organic matter (SOM). Replace this caption with the final figure description if needed.
+      </figcaption>
+     </figure>
+     <p style="margin-top:18px">
+      Compared with single-task models, the multi-task framework leverages relationships between soil organic properties to improve predictive performance.
+     </p>
+    </div>
+   </section>
+   <section id="future">
+    <div class="wrap">
+     <h2>
+      Future Work
+     </h2>
+     <p>
+      Potential next steps include extending MT-GAT to additional soil properties and evaluating its transferability across forests and environmental conditions.
+     </p>
+     <ul class="future-list">
+      <li>
+       <strong>
+        Additional soil targets:
+       </strong>
+       Extend joint prediction to other ecologically relevant soil properties.
+      </li>
+      <li>
+       <strong>
+        Model generalization:
+       </strong>
+       Assess robustness across additional forest sites, sampling densities, and geographic regions.
+      </li>
+      <li>
+       <strong>
+        Model interpretability:
+       </strong>
+       Investigate the contributions of environmental covariates and spatial interactions to soil predictions.
+      </li>
+     </ul>
+    </div>
+   </section>
+   <section class="alt" id="paper">
+    <div class="wrap">
+     <h2>
+      Publication
+     </h2>
+     <div class="paper">
+      <h3>
+       Multi-task Graph Attention Network for Mapping Forest Soil Organic Layer Thickness and Soil Organic Matter from Multi-source Remote Sensing Data
+      </h3>
+      <p>
+       Zhu Mao, Omid Abdi, Ville Laamanen, Veli-Pekka Kivinen, and Jori Uusitalo
+      </p>
+      <p>
+       Preprint available on SSRN (2026). DOI: 10.2139/ssrn.7287455
+      </p>
+      <div class="paper-links">
+       <a href="https://doi.org/10.2139/ssrn.7287455" rel="noopener noreferrer" target="_blank">
+        Preprint / DOI
+       </a>
+       <a href="https://scholar.google.com/citations?view_op=view_citation&amp;hl=zh-TW&amp;user=PF8I1pAAAAAJ&amp;sortby=pubdate&amp;citation_for_view=PF8I1pAAAAAJ:4DMP91E08xMC" rel="noopener noreferrer" target="_blank">
+        Google Scholar
+       </a>
+       <a href="https://github.com/zmaomia/MT-GAT" rel="noopener noreferrer" target="_blank">
+        GitHub Repository
+       </a>
+      </div>
+     </div>
+    </div>
+   </section>
+  </main>
+  <footer>
+   <div class="wrap">
+    MT-GAT-Soil &middot; Boreal forest soil mapping |
+    <a href="https://github.com/zmaomia/MT-GAT" rel="noopener noreferrer" target="_blank">
+     Source repository
+    </a>
+   </div>
+  </footer>
+ </body>
+</html>
+
