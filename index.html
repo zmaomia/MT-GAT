@@ -31,11 +31,16 @@ body {
   margin:0;
   background:var(--white);
   color:var(--ink);
-  font:16px/1.7 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font:17px/1.7 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 
 a {
   color:var(--forest);
+}
+
+code {
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:.9em;
 }
 
 .wrap {
@@ -76,7 +81,7 @@ header {
 }
 
 .menu a {
-  font-size:.9375rem;
+  font-size:1rem;
   text-decoration:none;
   color:var(--muted);
 }
@@ -108,7 +113,7 @@ header {
 
 .lead {
   max-width:850px;
-  font-size:1.1rem;
+  font-size:1.2rem;
   color:var(--muted);
 }
 
@@ -145,14 +150,14 @@ section.alt {
 }
 
 h2 {
-  font-size:1.75rem;
+  font-size:2rem;
   line-height:1.25;
   letter-spacing:-.025em;
   margin:0 0 20px;
 }
 
 h3 {
-  font-size:1.125rem;
+  font-size:1.25rem;
   line-height:1.4;
   margin:0 0 10px;
 }
@@ -205,7 +210,7 @@ p {
 }
 
 .metric strong {
-  font-size:1.5rem;
+  font-size:1.25rem;
   line-height:1.2;
 }
 
@@ -237,14 +242,14 @@ p {
 }
 
 .figure figcaption {
-  font-size:.95rem;
+  font-size:1rem;
   color:var(--muted);
   padding:14px 18px;
 }
 
 .figure-links {
   padding:0 18px 16px;
-  font-size:.95rem;
+  font-size:1rem;
 }
 
 .figure-links a {
@@ -303,7 +308,7 @@ footer {
   border-top:1px solid var(--line);
   padding:26px 0;
   color:var(--muted);
-  font-size:.9375rem;
+  font-size:1rem;
 }
 
 @media(max-width:800px) {
@@ -323,7 +328,7 @@ footer {
   .menu a {
     display:block;
     text-align:center;
-    font-size:.875rem;
+    font-size:.9375rem;
     padding:8px 2px;
     background:#f3f8f5;
     border-radius:7px;
@@ -354,19 +359,25 @@ footer {
   }
   .figure figcaption {
     padding:12px;
-    font-size:.875rem;
+    font-size:.9375rem;
   }
   .paper {
     padding:18px;
   }
   .lead {
-    font-size:1rem;
+    font-size:1.0625rem;
+  }
+  h2 {
+    font-size:1.75rem;
+  }
+  .metric strong {
+    font-size:1.125rem;
   }
 }
 
 @media(max-width:380px) {
   .menu a {
-    font-size:.84375rem;
+    font-size:.875rem;
   }
   .wrap {
     width:min(100% - 26px,1080px);
@@ -576,7 +587,7 @@ footer {
        .
       </div>
       <figcaption>
-       Figure 2. Results of MT-GAT predictions for soil organic layer thickness (SOLT) and soil organic matter (SOM). Replace this caption with the final figure description if needed.
+       Figure 2. Comparison of the predicted SOLT and SOM using classic GNN models and the proposed method. Column (a) represents the ground truth. Columns (b)&ndash;(g) show the predicted results obtained using GCN, GAT, GraphSAGE, GIN, GCNII, and GATv2, respectively. Column (h) represents the result of the proposed MT-GAT.
       </figcaption>
      </figure>
      <p style="margin-top:18px">
@@ -654,4 +665,3 @@ footer {
   </footer>
  </body>
 </html>
-
